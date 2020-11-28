@@ -1,0 +1,23 @@
+name: amical
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python
+  - pip
+  - corner
+  - matplotlib
+  - emcee
+  - tqdm
+  - astroquery
+  - termcolor
+  - numpy
+  - scipy
+  - uncertainties
+  - astropy
+  - pynvim
+  - flake8
+  - pyflakes
+  - munch
+  - ipython
+  - jupyterlab

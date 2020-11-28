@@ -100,14 +100,15 @@ def candid_grid(input_data, step=10, rmin=20, rmax=400, diam=0, obs=['cp', 'v2']
 def candid_cr_limit(input_data, step=10, rmin=20, rmax=400,
                     extra_error_cp=0, err_scale=1, extra_error_v2=0,
                     obs=['cp', 'v2'], fitComp=None, ncore=1,
-                    diam=None, methods=['injection'], instruments=None):
+                    diam=None, methods=['injection'], instruments=None,
+                    drawMaps=False):
     cprint(' | --- Start CANDID contrast limit --- :', 'green')
     o = candid.Open(input_data, extra_error=extra_error_cp,
                     err_scale=err_scale, extra_error_v2=extra_error_v2,
                     instruments=instruments)
     o.observables = obs
 
-    res = o.detectionLimit(rmin=rmin, rmax=rmax, step=step, drawMaps=True,
+    res = o.detectionLimit(rmin=rmin, rmax=rmax, step=step, drawMaps=drawMaps,
                            fratio=1, methods=methods, removeCompanion=fitComp,
                            ncore=ncore, diam=diam)
     return res

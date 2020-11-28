@@ -81,7 +81,7 @@ if verbose:
 CONFIG = {'color map': 'gist_earth',  # color map used
           'chi2 scale': 'auto',  # can be log
           'long exec warning': 600,  # in seconds
-          'suptitle': True,  # display over head title
+          'suptitle': False,  # display over head title
           'progress bar': True,
           'Ncores': None,  # default is to use N-1 Cores
           'Nsmear': 3,
@@ -2342,11 +2342,11 @@ class Open:
 
         if not fig is None:
             if CONFIG['suptitle']:
-                outout = plt.figure(figsize=(12/1.2, 5.5/1.2))
+                outout = plt.figure(figsize=(12/1.2, 12/1.2))
                 plt.subplots_adjust(left=0.1, right=0.99, bottom=0.1, top=0.78,
                                     wspace=0.2, hspace=0.2)
             else:
-                outout = plt.figure(figsize=(12/1.2, 5./1.2))
+                outout = plt.figure(figsize=(12/1.2, 12/1.2))
                 plt.subplots_adjust(left=0.1, right=0.99, bottom=0.1, top=0.9,
                                     wspace=0.2, hspace=0.2)
 
@@ -2360,50 +2360,56 @@ class Open:
             if CONFIG['suptitle']:
                 plt.suptitle(title, fontsize=10, fontweight='bold')
 
-            ax1 = plt.subplot(1, 2, 1)
-            if chi2Scale == 'log':
-                plt.title(r'log10[$\chi^2$ best fit / $\chi^2_{UD}$]')
-                plt.pcolormesh(_X,  # -dx,
-                               _Y,  # -dy,
-                               _Z-np.log10(self.chi2_UD), cmap='gist_earth', shading='auto')
-            else:
-                plt.title(r'$\chi^2$ best fit / $\chi^2_{UD}$')
-                plt.pcolormesh(_X,  # -dx,
-                               _Y,  # -dy,
-                               _Z/self.chi2_UD, cmap='gist_earth', shading='auto')
+            # ax1 = plt.subplot(1, 2, 1)
+            # if chi2Scale == 'log':
+            #     plt.title(r'log10[$\chi^2$ best fit / $\chi^2_{UD}$]')
+            #     plt.pcolormesh(_X,  # -dx,
+            #                    _Y,  # -dy,
+            #                    _Z-np.log10(self.chi2_UD), cmap='gist_earth', shading='auto')
+            # else:
+            #     plt.title(r'$\chi^2$ best fit / $\chi^2_{UD}$')
+            #     plt.pcolormesh(_X,  # -dx,
+            #                    _Y,  # -dy,
+            #                    _Z/self.chi2_UD, cmap='gist_earth', shading='auto')
 
-            plt.colorbar(format='%0.2f')
-            if reliability == 'unreliable':
-                plt.text(0, 0, '!! UNRELIABLE !!', color='r', size=30, alpha=0.5,
-                         ha='center', va='center', rotation=45)
-                plt.text(self.rmax/3, self.rmax/3, '!! UNRELIABLE !!', color='r',
-                         size=30, alpha=0.5, ha='center', va='center', rotation=45)
-                plt.text(-self.rmax/3, -self.rmax/3, '!! UNRELIABLE !!', color='r',
-                         size=30, alpha=0.5, ha='center', va='center', rotation=45)
-            for i, f in enumerate(self.allFits):
-                plt.plot([f['best']['x'], f['init']['x']],
-                         [f['best']['y'], f['init']['y']], '-y',
-                         alpha=0.3, linewidth=2)
-            plt.xlabel(r'E $\leftarrow\, \Delta \alpha$ (mas)')
+            # plt.colorbar(format='%0.2f')
+            # if reliability == 'unreliable':
+            #     plt.text(0, 0, '!! UNRELIABLE !!', color='r', size=30, alpha=0.5,
+            #              ha='center', va='center', rotation=45)
+            #     plt.text(self.rmax/3, self.rmax/3, '!! UNRELIABLE !!', color='r',
+            #              size=30, alpha=0.5, ha='center', va='center', rotation=45)
+            #     plt.text(-self.rmax/3, -self.rmax/3, '!! UNRELIABLE !!', color='r',
+            #              size=30, alpha=0.5, ha='center', va='center', rotation=45)
+            # for i, f in enumerate(self.allFits):
+            #     plt.plot([f['best']['x'], f['init']['x']],
+            #              [f['best']['y'], f['init']['y']], '-y',
+            #              alpha=0.3, linewidth=2)
+            # plt.xlabel(r'E $\leftarrow\, \Delta \alpha$ (mas)')
 
-            plt.ylabel(r'$\Delta \delta\, \rightarrow$ N (mas)')
-            plt.xlim(self.rmax-0.5*self.rmax/float(N), -
-                     self.rmax+0.5*self.rmax/float(N))
-            plt.ylim(-self.rmax+0.5*self.rmax/float(N),
-                     self.rmax-0.5*self.rmax/float(N))
-            ax1.set_aspect('equal',)  # 'datalim')
+            # plt.ylabel(r'$\Delta \delta\, \rightarrow$ N (mas)')
+            # plt.xlim(self.rmax-0.5*self.rmax/float(N), -
+            #          self.rmax+0.5*self.rmax/float(N))
+            # plt.ylim(-self.rmax+0.5*self.rmax/float(N),
+            #          self.rmax-0.5*self.rmax/float(N))
+            # ax1.set_aspect('equal',)  # 'datalim')
 
-            ax2 = plt.subplot(1, 2, 2, sharex=ax1, sharey=ax1)
+            ax2 = plt.subplot(1, 1, 1)
             # if CONFIG['chi2 scale']=='log':
             #     plt.title('log10[n$\sigma$] of detection')
             #     plt.pcolormesh(_X-0.5*self.rmax/float(N), _Y-0.5*self.rmax/float(N),
             #                    np.log10(n_sigma), cmap=CONFIG['color map'], vmin=0)
             # else:
-            plt.title(r'n$\sigma$ of detection')
+            # plt.title(r'n$\sigma$ of detection')
             plt.pcolormesh(_X,  # -dx,
                            _Y,  # -dy,
                            n_sigma, cmap='gist_earth', vmin=0, shading='auto')
-            plt.colorbar(format='%0.2f')
+            cbar = plt.colorbar(format='%0.2f')
+            cbar.ax.tick_params(labelsize=20) 
+            plt.xlim(self.rmax-0.5*self.rmax/float(N), -
+                     self.rmax+0.5*self.rmax/float(N))
+            plt.ylim(-self.rmax+0.5*self.rmax/float(N),
+                     self.rmax-0.5*self.rmax/float(N))
+            ax2.set_aspect('equal',)  # 'datalim')
 
             if reliability == 'unreliable':
                 plt.text(0, 0, '!! UNRELIABLE !!', color='r', size=30, alpha=0.5,
@@ -2473,17 +2479,18 @@ class Open:
 
             # if not fig is None:
             try:
-                fs = max(int(12*s0/bestNsigma), 6)
+                # fs = max(int(12*s0/bestNsigma), 6)
+                fs = 18
                 # -- draw cross hair
-                for ax in [ax1, ax2]:
+                for ax in [ax2]:
                     ax.plot([x0, x0], [y0-0.05*self.rmax, y0-0.1*self.rmax], '-r',
-                            alpha=fs/12, linewidth=fs/4)
+                            alpha=1, linewidth=fs/4)
                     ax.plot([x0, x0], [y0+0.05*self.rmax, y0+0.1*self.rmax], '-r',
-                            alpha=fs/12, linewidth=fs/4)
+                            alpha=1, linewidth=fs/4)
                     ax.plot([x0-0.05*self.rmax, x0-0.1*self.rmax], [y0, y0], '-r',
-                            alpha=fs/12, linewidth=fs/4)
+                            alpha=1, linewidth=fs/4)
                     ax.plot([x0+0.05*self.rmax, x0+0.1*self.rmax], [y0, y0], '-r',
-                            alpha=fs/12, linewidth=fs/4)
+                            alpha=1, linewidth=fs/4)
                 ax2.text(x0, y0, r'%3.1f$\sigma$' % s0, color='r',
                          va='bottom', ha='left', fontsize=fs)
             except ValueError:
@@ -2492,8 +2499,10 @@ class Open:
             #         va='bottom', ha='left', fontsize=fs)
 
         # if not fig is None:
-        plt.xlabel(r'E $\leftarrow\, \Delta \alpha$ (mas)')
-        plt.ylabel(r'$\Delta \delta\, \rightarrow$ N (mas)')
+        plt.xlabel(r'E $\leftarrow\, \Delta \alpha$ (mas)', fontsize=24)
+        plt.ylabel(r'$\Delta \delta\, \rightarrow$ N (mas)', fontsize=24)
+        plt.tick_params(labelsize=20)
+        plt.tight_layout()
         plt.show(block=False)
         #plt.xlim(self.rmax-self.rmax/float(N), -self.rmax+self.rmax/float(N))
         #plt.ylim(-self.rmax+self.rmax/float(N), self.rmax-self.rmax/float(N))
@@ -3291,15 +3300,29 @@ class Open:
                                                                                     self.rmax/float(N), 99)/100.)
 
         if not fig is None:
-            for m in methods:
-                plt.plot(r, self.detectionLimitResult[m+'_99_M'],
-                         linewidth=3, alpha=0.5, label=m+' (99%)')
+            m = methods[0]
+            plt.plot(r, self.detectionLimitResult[m+'_99_M'],
+                     linewidth=3, alpha=0.5, label=r'3$\sigma$ Detection')
+            # Get both scenarios for bpic
+            dmag_dp = (8.8, 0.1)
+            dmag_bt = (9.3, 0.1)
+            sep_fit = (130, 10)
+            colors = ['k', 'g']
+            names = ['DRIFT-PHOENIX', 'BT-Settl']
+            for i, dmag in enumerate([dmag_dp, dmag_bt]):
+                plt.errorbar(sep_fit[0], dmag[0],
+                             yerr=dmag[1], xerr=sep_fit[1],
+                             fmt='{}o'.format(colors[i]),
+                             markersize=6,
+                             label='{} expected contrast'.format(names[i]),
+                             capsize=4)
 
-            plt.ylabel(r'$\Delta \mathrm{Mag}_{3\sigma}$')
+            plt.ylabel(r'$\Delta \mathrm{Mag}$', fontsize=18)
             plt.ylim(plt.ylim()[1], plt.ylim()[0])  # -- rreverse plot
-            plt.legend(loc='upper center')
+            plt.legend(loc='upper right', fontsize=18)
 
-            plt.xlabel(r'Separation [mas]')
+            plt.xlabel(r'Separation [mas]', fontsize=18)
+            plt.tick_params(labelsize=16)
             plt.grid()
 
         # -- store radial profile of detection limit:
@@ -3307,6 +3330,7 @@ class Open:
         for m in methods:
             self.f3s[m] = sliding_percentile(r, r_f3s[m],
                                              self.rmax/float(N), 90)
+        plt.tight_layout()
         plt.show(block=False)
 
         res = {'r': r}
